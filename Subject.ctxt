@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Subject
+comment0.text=\n\ Provide\ a\ Subject\ interface\n\n\ @author\ Eric\ Boris\n\ @version\ 11/18/2018\n
+comment1.params=observer
+comment1.target=void\ register(Observer)
+comment1.text=\n\ register\ a\ new\ observer\n\ \n\ @param\ \ \ observer\ \ \ \ \ \ \ \ the\ new\ observer\ to\ register\n
+comment2.params=observer
+comment2.target=void\ remove(Observer)
+comment2.text=\n\ remove\ an\ existing\ observer\n\n\ @param\ \ \ observer\ \ \ \ \ \ \ \ the\ observer\ to\ remove\n
+comment3.params=
+comment3.target=void\ notifyObservers()
+comment3.text=\n\ notify\ each\ existing\ observer\ of\ changes\n
+numComments=4
