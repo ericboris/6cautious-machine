@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Fractal
+comment0.text=\n\ generate\ a\ fractal\n\n\ @author\ Eric\ Boris\n\ @version\ 11/18/2018\n
+comment1.params=
+comment1.target=Fractal()
+comment2.params=circles\ x\ y\ radius\ angle\ ratio
+comment2.target=ArrayList\ createCircleArray(ArrayList,\ double,\ double,\ double,\ double,\ double)
+comment3.params=
+comment3.target=ArrayList\ getCircles()
+comment4.params=x\ y\ r
+comment4.target=double[]\ cornerPoint(double,\ double,\ double)
+comment5.params=x\ y\ r
+comment5.target=void\ drawCircle(double,\ double,\ double)
+comment6.params=args
+comment6.target=void\ main(java.lang.String[])
+numComments=7
