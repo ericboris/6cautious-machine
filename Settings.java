@@ -11,14 +11,14 @@ import javax.swing.event.*;
  */
 public class Settings extends JPanel {
     private JSlider depthSlider;
+    private JLabel currentDepth;
     private JLabel depthLabel;
     private JLabel ratioLabel;
+    private JLabel currentRatio;
     private JSlider ratioSlider;
     private JLabel angleLabel;
-    private JSlider angleSlider;
-    private JLabel currentDepth;
-    private JLabel currentRatio;
     private JLabel currentAngle;
+    private JSlider angleSlider;
     private JButton rootFill;
     private JButton rootOutline;
     private JButton leafFill;
