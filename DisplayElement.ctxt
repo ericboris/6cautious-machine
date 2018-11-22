@@ -1,7 +1,0 @@
-#BlueJ class context
-comment0.target=DisplayElement
-comment0.text=\n\ Provide\ an\ interface\ to\ display\ objects\n\n\ @author\ Eric\ Boris\n\ @version\ 11/18/2018\n
-comment1.params=
-comment1.target=void\ display()
-comment1.text=\n\ display\ the\ element\n
-numComments=2
