@@ -9,7 +9,7 @@ import javax.swing.event.*;
  * @author Eric Boris
  * @version 11/18/2018
  */
-public class Fractal extends JPanel {
+public class Fractal extends JPanel implements Subject{
     private int depth;
     private int ratio;
     private int angle;
@@ -51,11 +51,13 @@ public class Fractal extends JPanel {
         return points;        
     }
     
-    // public void draw(double x, double y, double r) {
-       // // draw a fillOval(x, y, r * 2, r * 2);        
-    // }
+    public void register(Observer observer) {}
     
-    public void draw(ArrayList<Circle> circles) {
+    public void remove(Observer observer) {}
+    
+    public void notifyObservers() {}
+    
+    public void drawC(ArrayList<Circle> circles) {
         for (Circle c : circles) {
             double[] cp = cornerPoint(c.getX(), c.getY(), c.getRadius());
             // drawCircle(cp[0], cp[1], c.getRadius() * 2, c.getRadius() * 2);
@@ -63,7 +65,7 @@ public class Fractal extends JPanel {
         }
     }
     
-    private class Circle {
+    private static class Circle {
         private double x;
         private double y;
         private double radius;
@@ -94,11 +96,13 @@ public class Fractal extends JPanel {
         Fractal f = new Fractal();
         ArrayList<Circle> circles = f.getCircles();
         
-        p = new JPanel();
+        //p = new JPanel();
+
+
         
         JFrame frame = new JFrame("Settings");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(p);
+        frame.getContentPane().add(new JPanel());
         frame.pack();
         frame.setVisible (true);
         frame.setSize(1200, 800);
