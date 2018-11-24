@@ -1,6 +1,10 @@
 #BlueJ class context
 comment0.target=Display
 comment0.text=\n\ handle\ displaying\ a\ fractal\ window\ and\ a\ settings\ window\n\n\ @author\ Eric\ Boris\n\ @version\ 11/7/18\n
-comment1.params=
-comment1.target=void\ update()
-numComments=2
+comment1.params=width\ height\ subject
+comment1.target=Display(int,\ int,\ Subject)
+comment2.params=
+comment2.target=void\ update()
+comment3.params=g
+comment3.target=void\ paintComponent(java.awt.Graphics)
+numComments=4

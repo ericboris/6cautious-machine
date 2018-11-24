@@ -21,4 +21,8 @@ public interface Subject {
      * notify each existing observer of changes
      */
     public void notifyObservers();
+    /**
+     * get all the subject's data
+     */
+    public ArrayList<Circle> getData();    
 }

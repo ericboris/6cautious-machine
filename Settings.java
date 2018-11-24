@@ -10,6 +10,11 @@ import javax.swing.event.*;
  * @version 11/18/2018
  */
 public class Settings extends JPanel {
+    private Fractal fractal;
+    
+    private JFrame sf;
+    private JPanel sp;
+
     private JSlider depthSlider;
     private JLabel currentDepth;
     private JLabel depthLabel;
@@ -26,10 +31,13 @@ public class Settings extends JPanel {
     private JCheckBox useOutline;
     private JCheckBox useGradient;
 
+    // window settings
+    private Dimension INIT_DIM = new Dimension(180, 390);
+    
     // slider settings 
-    private int MAX_DEPTH = 40;
+    private int MAX_DEPTH = 100;
     private int INIT_DEPTH = MAX_DEPTH / 2;
-    private int MAX_RATIO = 100;
+    private int MAX_RATIO = 99;
     private int INIT_RATIO = MAX_RATIO / 2; 
     private int MAX_ANGLE = 90;
     private int INIT_ANGLE = MAX_ANGLE / 2;
@@ -40,9 +48,16 @@ public class Settings extends JPanel {
     private Color INIT_LEAF_FILL = Color.black;
     private Color INIT_LEAF_LINE = Color.white;
 
-    public Settings() {
-        setPreferredSize(new Dimension(180, 390));
-        setLayout(null);
+    public Settings(Fractal fractal) {
+        if (fractal == null) {
+            throw new IllegalArgumentException("Argument must not be null");
+        }
+        this.fractal = fractal;
+        
+        // create a settings jpanel
+        sp = new JPanel();
+        sp.setPreferredSize(INIT_DIM);
+        sp.setLayout(null);
 
         // depth settings
         depthLabel = new JLabel("Depth", JLabel.CENTER);
@@ -52,31 +67,35 @@ public class Settings extends JPanel {
         depthSlider = new JSlider(JSlider.VERTICAL, 0, MAX_DEPTH, MAX_DEPTH / 2);
         depthSlider.setBounds(0, 30, 60, 180);
         depthSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                currentDepth.setText(String.valueOf(depthSlider.getValue()));
-            }
-        });
-        add(depthLabel);
-        add(currentDepth);
-        add(depthSlider);
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    fractal.setData(depthSlider.getValue(), ratioSlider.getValue(), angleSlider.getValue());
+                    currentDepth.setText(String.valueOf(depthSlider.getValue()));
+                    System.out.println(depthSlider.getValue() + " " + ratioSlider.getValue() + " " + angleSlider.getValue());
+                    System.out.println(fractal.getData());
+                }
+            });
+        sp.add(depthLabel);
+        sp.add(currentDepth);
+        sp.add(depthSlider);
 
         // ratio settings
         ratioLabel = new JLabel("Ratio", JLabel.CENTER);
         ratioLabel.setBounds(60, 10, 60, 20);
-        currentRatio = new JLabel(String.valueOf(INIT_RATIO), JLabel.CENTER);
+        currentRatio = new JLabel("0." + String.valueOf(INIT_RATIO), JLabel.CENTER);
         currentRatio.setBounds(60, 210, 60, 20);
         ratioSlider = new JSlider(JSlider.VERTICAL, 0, MAX_RATIO, MAX_RATIO / 2);
         ratioSlider.setBounds(60, 30, 60, 180);
         ratioSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                currentRatio.setText(String.valueOf(ratioSlider.getValue()));
-            }
-        });
-        add(ratioLabel);
-        add(ratioSlider);
-        add(currentRatio);
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    fractal.setData(depthSlider.getValue(), ratioSlider.getValue(), angleSlider.getValue());
+                    currentRatio.setText("0." + String.valueOf(ratioSlider.getValue()));
+                }
+            });
+        sp.add(ratioLabel);
+        sp.add(ratioSlider);
+        sp.add(currentRatio);
 
         // angle settings
         angleLabel = new JLabel("Angle", JLabel.CENTER);
@@ -86,14 +105,15 @@ public class Settings extends JPanel {
         angleSlider = new JSlider(JSlider.VERTICAL, 0, MAX_ANGLE, MAX_ANGLE / 2);
         angleSlider.setBounds(120, 30, 60, 180);
         angleSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                currentAngle.setText(String.valueOf(angleSlider.getValue()));
-            }
-        });
-        add(angleLabel);
-        add(angleSlider);
-        add(currentAngle);
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    fractal.setData(depthSlider.getValue(), ratioSlider.getValue(), angleSlider.getValue());
+                    currentAngle.setText(String.valueOf(angleSlider.getValue()));
+                }
+            });
+        sp.add(angleLabel);
+        sp.add(angleSlider);
+        sp.add(currentAngle);
 
         // root color settings
         rootFill = new JButton("");
@@ -102,32 +122,32 @@ public class Settings extends JPanel {
         rootFill.setOpaque(true);
         rootFill.setBorderPainted(false);
         rootFill.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Color c = JColorChooser.showDialog(null, "Choose a Color",
-                        rootFill.getForeground());
-                if (c != null) {
-                    rootFill.setBackground(c);
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Color c = JColorChooser.showDialog(null, "Choose a Color",
+                            rootFill.getForeground());
+                    if (c != null) {
+                        rootFill.setBackground(c);
+                    }
                 }
-            }
-        });
+            });
         rootOutline = new JButton("");
         rootOutline.setBounds(5, 300, 80, 20);
         rootOutline.setBackground(INIT_ROOT_LINE);
         rootOutline.setOpaque(true);
         rootOutline.setBorderPainted(false);
         rootOutline.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Color c = JColorChooser.showDialog(null, "Choose a Color",
-                        rootOutline.getForeground());
-                if (c != null) {
-                    rootOutline.setBackground(c);
-                } 
-            }
-        });
-        add(rootFill);
-        add(rootOutline);
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Color c = JColorChooser.showDialog(null, "Choose a Color",
+                            rootOutline.getForeground());
+                    if (c != null) {
+                        rootOutline.setBackground(c);
+                    } 
+                }
+            });
+        sp.add(rootFill);
+        sp.add(rootOutline);
 
         // leaf color settings
         leafFill = new JButton("");
@@ -136,48 +156,51 @@ public class Settings extends JPanel {
         leafFill.setOpaque(true);
         leafFill.setBorderPainted(false);
         leafFill.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Color c = JColorChooser.showDialog(null, "Choose a Color",
-                        leafFill.getForeground());
-                if (c != null) {
-                    leafFill.setBackground(c);
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Color c = JColorChooser.showDialog(null, "Choose a Color",
+                            leafFill.getForeground());
+                    if (c != null) {
+                        leafFill.setBackground(c);
+                    }
                 }
-            }
-        });
+            });
         leafOutline = new JButton("");
         leafOutline.setBounds(95, 300, 80, 20);
         leafOutline.setBackground(INIT_LEAF_LINE);
         leafOutline.setOpaque(true);
         leafOutline.setBorderPainted(false);
         leafOutline.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Color c = JColorChooser.showDialog(null, "Choose a Color",
-                        leafOutline.getForeground());
-                if (c != null) {
-                    leafOutline.setBackground(c);
-                } 
-            }
-        });
-        add(leafFill);
-        add(leafOutline);
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Color c = JColorChooser.showDialog(null, "Choose a Color",
+                            leafOutline.getForeground());
+                    if (c != null) {
+                        leafOutline.setBackground(c);
+                    } 
+                }
+            });
+        sp.add(leafFill);
+        sp.add(leafOutline);
 
         // Checkbox settings
         useOutline = new JCheckBox("Outline");
         useOutline.setBounds(5, 325, 100, 25);
         useGradient = new JCheckBox("Gradient");
         useGradient.setBounds(5, 355, 100, 25);
-        add(useOutline);
-        add(useGradient);        
-    }
+        sp.add(useOutline);
+        sp.add(useGradient); 
 
-    public static void main (String[] args) {
-        JFrame frame = new JFrame("Settings");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(new Settings());
-        frame.pack();
-        frame.setVisible (true);
-        frame.setResizable(false);
+        // create a settings jframe and add the settings panel to it
+        sf = new JFrame("Settings");
+        sf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        sf.getContentPane().add(sp);
+        sf.pack();
+        sf.setVisible(true);
+        sf.setResizable(false);
+    }
+    
+    public Dimension getSettingsDimension() {
+        return INIT_DIM;
     }
 }

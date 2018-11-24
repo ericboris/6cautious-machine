@@ -14,101 +14,66 @@ public class Fractal extends JPanel implements Subject{
     private int ratio;
     private int angle;
     private ArrayList<Circle> circles;
+    private ArrayList<Observer> observers;
     JPanel p;
-    
+
+    private Toolkit tk;
+
     public Fractal() {
-        ArrayList<Circle> circles = new ArrayList<Circle>();
-        createCircleArray(circles, 600, 400, 100, Math.PI / 4, 0.5);
+        setData(0, 0, 0);
+        observers = new ArrayList<Observer>();
     }
-    
+
     private ArrayList<Circle> createCircleArray(ArrayList<Circle> circles, double x, double y, 
-                                         double radius, double angle, double ratio) {
-        if ((int) radius > 0) {
-            double newX = (radius + radius / ratio) * Math.sin(angle) + x;
-            double newY = (radius + radius / ratio) * Math.cos(angle) + y;
-            double newRadius = radius * ratio;
+    double radius, double angle, double ratio, int depth) {
+        if ((int) radius > 0 && depth > 0) {
+            circles.add(new Circle(x, y, radius));
+            System.out.println(x + ", " + y + ", " + radius + ", " + angle);
+            // add a circle at current x and y with current radius
+            
+            double newRadius = radius * ratio * 0.01;
+            double angleInRads = angle * Math.PI / 180;
+            double newLeftX = (radius + newRadius) * Math.sin(-angleInRads) + x;
+            double newRightX = (radius + newRadius) * Math.sin(angleInRads) + x;
+            double newY = (radius + newRadius) * Math.cos(angleInRads) + y;
             double leftA = angle + angle;
             double rightA = angle - angle;
             // create a left branch
-            circles = createCircleArray(circles, newX, newY, newRadius, leftA, ratio);
-            // add a circle at current x and y with current radius
-            circles.add(new Circle(x, y, radius));
-            System.out.println(x + ", " + y + ", " + radius + ", " + angle);
+            // removed x change x
+            createCircleArray(circles, newLeftX, newY, newRadius, leftA, ratio, depth - 1);
+            
+            
+            
             // create a right branch
-            circles = createCircleArray(circles, newX, newY, newRadius, rightA, ratio);
+            // removed x change x
+            createCircleArray(circles, newRightX, newY, newRadius, rightA, ratio, depth - 1);
         }
         return circles;
     }
-    
-    public ArrayList<Circle> getCircles() {
-        return circles;
-    }
-        
-    public double[] cornerPoint(double x, double y, double r) {
-        double[] points = new double[2];
-        points[0] = x - r;
-        points[1] = y - r;
-        return points;        
-    }
-    
-    public void register(Observer observer) {}
-    
-    public void remove(Observer observer) {}
-    
-    public void notifyObservers() {}
-    
-    public void drawC(ArrayList<Circle> circles) {
-        for (Circle c : circles) {
-            double[] cp = cornerPoint(c.getX(), c.getY(), c.getRadius());
-            // drawCircle(cp[0], cp[1], c.getRadius() * 2, c.getRadius() * 2);
-            // draw a fillOval(x, y, r * 2, r * 2);  
-        }
-    }
-    
-    private static class Circle {
-        private double x;
-        private double y;
-        private double radius;
-        
-        public Circle(double x, double y, double r) {
-            if (x < 0 || y < 0 || r < 0) {
-                throw new IllegalArgumentException("Argument must not be less than zero");
-            }
-            this.x = x;
-            this.y = y;
-            this.radius = r;
-        }
-        
-        public double getX() {
-            return x;
-        }
-        
-        public double getY() {
-            return y;
-        }
-        
-        public double getRadius() {
-            return radius;
-        }
-    }
-    
-    public static void main(String[] args) {
-        Fractal f = new Fractal();
-        ArrayList<Circle> circles = f.getCircles();
-        
-        //p = new JPanel();
 
-
-        
-        JFrame frame = new JFrame("Settings");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(new JPanel());
-        frame.pack();
-        frame.setVisible (true);
-        frame.setSize(1200, 800);
-        
-        
+    public void register(Observer observer) {
+        observers.add(observer);
     }
-    
-    
+
+    public void remove(Observer observer) {
+        observers.remove(observers.indexOf(observer));
+    }
+
+    public void notifyObservers() {
+        for (Observer o : observers) {
+            o.update();
+        }
+    }
+
+    public void setData(int depth, int ratio, int angle) {
+        circles = new ArrayList<Circle>();
+        this.depth = depth;
+        this.ratio = ratio;
+        this.angle = angle;
+        //notifyObservers();
+    }
+
+    public ArrayList<Circle> getData() {
+        return createCircleArray(circles, 100, 100, 100, angle, ratio, depth);
+    }
 }
