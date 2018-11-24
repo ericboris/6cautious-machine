@@ -7,4 +7,6 @@ comment2.params=
 comment2.target=void\ update()
 comment3.params=g
 comment3.target=void\ paintComponent(java.awt.Graphics)
-numComments=4
+comment4.params=
+comment4.target=java.awt.Dimension\ getPreferredSize()
+numComments=5

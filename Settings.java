@@ -55,9 +55,9 @@ public class Settings extends JPanel {
         this.fractal = fractal;
         
         // create a settings jpanel
-        sp = new JPanel();
-        sp.setPreferredSize(INIT_DIM);
-        sp.setLayout(null);
+        //sp = new JPanel();
+        setPreferredSize(INIT_DIM);
+        setLayout(null);
 
         // depth settings
         depthLabel = new JLabel("Depth", JLabel.CENTER);
@@ -75,9 +75,9 @@ public class Settings extends JPanel {
                     System.out.println(fractal.getData());
                 }
             });
-        sp.add(depthLabel);
-        sp.add(currentDepth);
-        sp.add(depthSlider);
+        add(depthLabel);
+        add(currentDepth);
+        add(depthSlider);
 
         // ratio settings
         ratioLabel = new JLabel("Ratio", JLabel.CENTER);
@@ -93,9 +93,9 @@ public class Settings extends JPanel {
                     currentRatio.setText("0." + String.valueOf(ratioSlider.getValue()));
                 }
             });
-        sp.add(ratioLabel);
-        sp.add(ratioSlider);
-        sp.add(currentRatio);
+        add(ratioLabel);
+        add(ratioSlider);
+        add(currentRatio);
 
         // angle settings
         angleLabel = new JLabel("Angle", JLabel.CENTER);
@@ -111,9 +111,9 @@ public class Settings extends JPanel {
                     currentAngle.setText(String.valueOf(angleSlider.getValue()));
                 }
             });
-        sp.add(angleLabel);
-        sp.add(angleSlider);
-        sp.add(currentAngle);
+        add(angleLabel);
+        add(angleSlider);
+        add(currentAngle);
 
         // root color settings
         rootFill = new JButton("");
@@ -146,8 +146,8 @@ public class Settings extends JPanel {
                     } 
                 }
             });
-        sp.add(rootFill);
-        sp.add(rootOutline);
+        add(rootFill);
+        add(rootOutline);
 
         // leaf color settings
         leafFill = new JButton("");
@@ -180,21 +180,21 @@ public class Settings extends JPanel {
                     } 
                 }
             });
-        sp.add(leafFill);
-        sp.add(leafOutline);
+        add(leafFill);
+        add(leafOutline);
 
         // Checkbox settings
         useOutline = new JCheckBox("Outline");
         useOutline.setBounds(5, 325, 100, 25);
         useGradient = new JCheckBox("Gradient");
         useGradient.setBounds(5, 355, 100, 25);
-        sp.add(useOutline);
-        sp.add(useGradient); 
+        add(useOutline);
+        add(useGradient); 
 
         // create a settings jframe and add the settings panel to it
         sf = new JFrame("Settings");
         sf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        sf.getContentPane().add(sp);
+        sf.getContentPane().add(this);
         sf.pack();
         sf.setVisible(true);
         sf.setResizable(false);

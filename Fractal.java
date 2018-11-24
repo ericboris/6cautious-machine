@@ -13,42 +13,36 @@ public class Fractal extends JPanel implements Subject{
     private int depth;
     private int ratio;
     private int angle;
-    private ArrayList<Circle> circles;
+    
+    private ArrayList<Circle> elements;
     private ArrayList<Observer> observers;
-    JPanel p;
-
-    private Toolkit tk;
 
     public Fractal() {
         setData(0, 0, 0);
         observers = new ArrayList<Observer>();
     }
 
-    private ArrayList<Circle> createCircleArray(ArrayList<Circle> circles, double x, double y, 
+    private ArrayList<Circle> generateFractal(ArrayList<Circle> elements, double x, double y, 
     double radius, double angle, double ratio, int depth) {
         if ((int) radius > 0 && depth > 0) {
-            circles.add(new Circle(x, y, radius));
+            // Add the current element to the array
+            elements.add(new Circle(x, y, radius));
+            // TODO - remove this line
             System.out.println(x + ", " + y + ", " + radius + ", " + angle);
-            // add a circle at current x and y with current radius
+            
             
             double newRadius = radius * ratio * 0.01;
             double angleInRads = angle * Math.PI / 180;
             double newLeftX = (radius + newRadius) * Math.sin(-angleInRads) + x;
             double newRightX = (radius + newRadius) * Math.sin(angleInRads) + x;
             double newY = (radius + newRadius) * Math.cos(angleInRads) + y;
-            double leftA = angle + angle;
-            double rightA = angle - angle;
-            // create a left branch
-            // removed x change x
-            createCircleArray(circles, newLeftX, newY, newRadius, leftA, ratio, depth - 1);
-            
-            
-            
-            // create a right branch
-            // removed x change x
-            createCircleArray(circles, newRightX, newY, newRadius, rightA, ratio, depth - 1);
+            double leftAngle = angle + angle;
+            double rightAngle = angle - angle;
+  
+            generateFractal(elements, newLeftX, newY, newRadius, leftAngle, ratio, depth - 1);
+            generateFractal(elements, newRightX, newY, newRadius, rightAngle, ratio, depth - 1);
         }
-        return circles;
+        return elements;
     }
 
     public void register(Observer observer) {
@@ -60,20 +54,22 @@ public class Fractal extends JPanel implements Subject{
     }
 
     public void notifyObservers() {
-        for (Observer o : observers) {
-            o.update();
+        if (observers != null) {
+            for (Observer observer : observers) {
+                observer.update();
+            }
         }
     }
 
     public void setData(int depth, int ratio, int angle) {
-        circles = new ArrayList<Circle>();
+        elements = new ArrayList<Circle>();
         this.depth = depth;
         this.ratio = ratio;
         this.angle = angle;
-        //notifyObservers();
+        notifyObservers();
     }
 
     public ArrayList<Circle> getData() {
-        return createCircleArray(circles, 100, 100, 100, angle, ratio, depth);
+        return generateFractal(elements, 100, 100, 100, angle, ratio, depth);
     }
 }

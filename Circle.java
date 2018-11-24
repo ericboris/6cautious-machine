@@ -45,19 +45,14 @@ public class Circle implements Drawable{
         return color;
     }
     
-    public double cornerPt(double val, double r) {
-        return val - r;        
+    public double cornerPt(double val, double radius) {
+        return val - radius;        
     }
     
     public void draw(Graphics g) {
-        g.setColor(Color.black);
+        g.setColor(color);
         g.fillOval(Math.round((long) cornerPt(x, radius)), Math.round((long) cornerPt(y, radius)), 
                    Math.round((long) radius), Math.round((long) radius));
+        System.out.println("Draw called");
     }
-    
-    // public void paintComponent(Graphics g) {
-        
-        // g.drawOval(Math.round((long) cornerPt(x, radius)), Math.round((long) cornerPt(y, radius)), 
-                   // Math.round((long) radius), Math.round((long) radius));
-    // }
 }   
