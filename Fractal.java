@@ -19,6 +19,7 @@ public class Fractal extends JPanel implements Subject{
     private int maxDepth;
     private Color color1;
     private Color color2;
+    private boolean useGradient;
     
     private ArrayList<Circle> elements;
     private ArrayList<Observer> observers;
@@ -33,7 +34,7 @@ public class Fractal extends JPanel implements Subject{
         //if ((int) radius > 1 && depth > 0) {
         if (depth <= maxDepth) {
             // Add the current element to the array
-            elements.add(new Circle(x, y, radius, setColor(depth)));
+            elements.add(new Circle(x, y, radius, getColor(depth)));
 
             double newRadius = radius * ratio * 0.01;
             
@@ -43,7 +44,6 @@ public class Fractal extends JPanel implements Subject{
                             newRadius, 
                             a1 - a2,
                             a2,
-                            // depth - 1;
                             depth + 1, 
                             ratio);            
                             
@@ -54,7 +54,6 @@ public class Fractal extends JPanel implements Subject{
                             a1 + a2,
                             a2,
                             depth + 1,
-                            //depth - 1,
                             ratio);
         }
         return elements;
@@ -76,7 +75,8 @@ public class Fractal extends JPanel implements Subject{
         }
     }
 
-    public void setData(int x, int y, int radius, int depth, int ratio, int angle, Color color1, Color color2) {
+    public void setData(int x, int y, int radius, int depth, int ratio, int angle, 
+                        Color color1, Color color2, boolean useGradient) {
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -85,21 +85,36 @@ public class Fractal extends JPanel implements Subject{
         this.angle = Math.toRadians(angle);
         this.color1 = color1;
         this.color2 = color2;
+        this.useGradient = useGradient;
         this.maxDepth = maxDepth(radius, depth, ratio);
         notifyObservers();
     }
 
     public ArrayList<Circle> getData() {
         elements.clear();
-        System.out.println("\n");
         return generateFractal(x, y, radius, 0.0, angle, 0, ratio);
     }
     
-    private Color setColor(int depth) {
-        if (maxDepth != depth) {
-            return color1;
+    private Color getColor(int depth) {
+        if (!useGradient) {
+            if (maxDepth != depth) {
+                return color1;
+            }
+            return color2;
+        } else {
+            //double ratio = depth / maxDepth;
+            //double ratio = 2/3;
+            
+            //System.out.println(ratio + " " + red + " " + green + " " + blue);
+            return interpolateColors((double) depth / (double) maxDepth);
         }
-        return color2;        
+    }
+    
+    private Color interpolateColors(double ratio) {
+        int red = (int) Math.abs((ratio * color2.getRed()) + ((1 - ratio) * color1.getRed()));
+        int green = (int) Math.abs((ratio * color2.getGreen()) + ((1 - ratio) * color1.getGreen()));
+        int blue = (int) Math.abs((ratio * color2.getBlue()) + ((1 - ratio) * color1.getBlue()));
+        return new Color(red, green, blue);
     }
     
     private int maxDepth(double radius, int depth, double ratio) {
@@ -108,7 +123,6 @@ public class Fractal extends JPanel implements Subject{
             radius = radius * ratio * 0.01;
             depth--;
             count++;
-            //System.out.println(radius + " " + depth + " " + count);
         }
         return count;
     }

@@ -265,6 +265,12 @@ public class Settings extends JPanel {
         useOutline.setBounds(5, 585, 100, 25);
         useGradient = new JCheckBox("Gradient");
         useGradient.setBounds(5, 610, 100, 25);
+        useGradient.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                update();
+            }
+        });
         add(useOutline);
         add(useGradient); 
         
@@ -285,7 +291,8 @@ public class Settings extends JPanel {
                         ratioSlider.getValue(), 
                         angleSlider.getValue(),
                         rootFill.getBackground(),
-                        leafFill.getBackground());
+                        leafFill.getBackground(),
+                        useGradient.isSelected());
     } 
     
     @Override
