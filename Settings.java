@@ -50,8 +50,8 @@ public class Settings extends JPanel {
     private int INIT_X = MAX_X / 2;
     private int MAX_Y = Toolkit.getDefaultToolkit().getScreenSize().height;
     private int INIT_Y = MAX_Y / 2;
-    private int MAX_SIZE = INIT_DIM.width * 4;
-    private int INIT_SIZE = MAX_SIZE / 4;
+    private int MAX_SIZE = INIT_DIM.width * 8;
+    private int INIT_SIZE = MAX_SIZE / 8;
     private int MAX_DEPTH = 20;
     private int INIT_DEPTH = MAX_DEPTH / 2;
     private int MAX_RATIO = 99;
@@ -217,6 +217,7 @@ public class Settings extends JPanel {
                     if (c != null) {
                         rootOutline.setBackground(c);
                     } 
+                    update();
                 }
             });
         add(rootLabel);
@@ -239,6 +240,7 @@ public class Settings extends JPanel {
                     if (c != null) {
                         leafFill.setBackground(c);
                     }
+                    update();
                 }
             });
         leafOutline = new JButton("");
@@ -254,6 +256,7 @@ public class Settings extends JPanel {
                     if (c != null) {
                         leafOutline.setBackground(c);
                     } 
+                    update();
                 }
             });
         add(leafLabel);
@@ -263,6 +266,12 @@ public class Settings extends JPanel {
         // Checkbox settings
         useOutline = new JCheckBox("Outline");
         useOutline.setBounds(5, 585, 100, 25);
+        useOutline.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                update();
+            }
+        });
         useGradient = new JCheckBox("Gradient");
         useGradient.setBounds(5, 610, 100, 25);
         useGradient.addActionListener(new ActionListener() {
@@ -292,6 +301,9 @@ public class Settings extends JPanel {
                         angleSlider.getValue(),
                         rootFill.getBackground(),
                         leafFill.getBackground(),
+                        rootOutline.getBackground(),
+                        leafOutline.getBackground(),
+                        useOutline.isSelected(),
                         useGradient.isSelected());
     } 
     
