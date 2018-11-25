@@ -26,5 +26,5 @@ public interface Subject {
      * 
      * @return              an array of all the subject's data
      */
-    public ArrayList<Circle> getData();    
+    public ArrayList<? extends Drawable> getData();    
 }

@@ -1,5 +1,6 @@
 import java.awt.Color;
 import javax.swing.JPanel;
+import java.awt.Graphics;
 
 /**
  * generate a fractal
@@ -60,40 +61,40 @@ public class Fractal extends JPanel implements Subject{
      * @return                  an array of fractal elements
      */
     private ArrayList<Circle> generateFractal(double x, double y, double radius, 
-                                              double a1, double a2, int depth, 
-                                              double ratio) {
+    double a1, double a2, int depth, 
+    double ratio) {
         //if ((int) radius > 1 && depth > 0) {
         if (depth <= maxDepth) {
             // Add the current element to the array
             // if outline is being used add that color to the new circle too
             if (useOutline) {
                 elements.add(new Circle(x, y, radius, 
-                                        getColor(depth, fillColor1, fillColor2), 
-                                        getColor(depth, lineColor1, lineColor2)));
+                        getColor(depth, fillColor1, fillColor2), 
+                        getColor(depth, lineColor1, lineColor2)));
             } else {
                 elements.add(new Circle(x, y, radius, 
-                                        getColor(depth, fillColor1, fillColor2)));
+                        getColor(depth, fillColor1, fillColor2)));
             }
 
             double newRadius = radius * ratio * 0.01;
-            
+
             // the left branch
             generateFractal(x + (radius + newRadius) * Math.sin(a1 - a2), 
-                            y - (radius + newRadius) * Math.cos(a1 - a2), 
-                            newRadius, 
-                            a1 - a2,
-                            a2,
-                            depth + 1, 
-                            ratio);            
-                            
+                y - (radius + newRadius) * Math.cos(a1 - a2), 
+                newRadius, 
+                a1 - a2,
+                a2,
+                depth + 1, 
+                ratio);            
+
             // the right branch
             generateFractal(x + (radius + newRadius) * Math.sin(a1 + a2), 
-                            y - (radius + newRadius) * Math.cos(a1 + a2), 
-                            newRadius, 
-                            a1 + a2,
-                            a2,
-                            depth + 1,
-                            ratio);
+                y - (radius + newRadius) * Math.cos(a1 + a2), 
+                newRadius, 
+                a1 + a2,
+                a2,
+                depth + 1,
+                ratio);
         }
         return elements;
     }
@@ -144,8 +145,8 @@ public class Fractal extends JPanel implements Subject{
      * @param   useGradient     iterpolate colors between each element
      */
     public void setData(int x, int y, int radius, int depth, int ratio, int angle, 
-                        Color fillColor1, Color fillColor2, Color lineColor1, 
-                        Color lineColor2, boolean useOutline, boolean useGradient) {
+    Color fillColor1, Color fillColor2, Color lineColor1, 
+    Color lineColor2, boolean useOutline, boolean useGradient) {
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -171,7 +172,7 @@ public class Fractal extends JPanel implements Subject{
         elements.clear();
         return generateFractal(x, y, radius, 0.0, angle, 0, ratio);
     }
-    
+
     /**
      * get the current elements color
      * 
@@ -191,7 +192,7 @@ public class Fractal extends JPanel implements Subject{
             return interpolateColors((double) depth / (double) maxDepth, color1, color2);
         }
     }
-    
+
     /**
      * return a color some way between the given colors
      * 
@@ -206,7 +207,7 @@ public class Fractal extends JPanel implements Subject{
         int blue = (int) Math.abs((ratio * color2.getBlue()) + ((1 - ratio) * color1.getBlue()));
         return new Color(red, green, blue);
     }
-    
+
     /**
      * the maximum depth that elements will be drawn at
      * 
@@ -224,4 +225,80 @@ public class Fractal extends JPanel implements Subject{
         }
         return count;
     }
+
+    /**
+     * create a circle and it's data
+     */
+    private class Circle implements Drawable{
+        /** x                   the x coordinate of the circle */
+        private double x;
+        /** y                   the y coordinate of the circle */
+        private double y;
+        /** radius              the radius of the circle */
+        private double radius;
+        /** fillColor           the fill color of the circle */
+        private Color fillColor;
+        /** outlineColor        the outline color of the circle */ 
+        private Color outlineColor;
+
+        /**
+         * a circle constructor
+         * 
+         * @param   x               the x coordinate of the circle
+         * @param   y               the y coordinate of the circle
+         * @param   radius          the radius of the circle
+         * @param   fillColor       the fill color of the circle
+         */
+        public Circle(double x, double y, double radius, Color fillColor) {
+            this(x, y, radius, fillColor, null);
+        }
+
+        /**
+         * a circle constructor with a defined fill color and outline color
+         * 
+         * @param   x               the x coordinate of the circle
+         * @param   y               the y coordinate of the circle
+         * @param   radius          the radius of the circle
+         * @param   fillColor       the fill color of the circle
+         * @param   outlineColor    the outline color of the circle
+         */
+        public Circle(double x, double y, double radius, Color fillColor, Color outlineColor) {
+            if (radius < 0) {
+                throw new IllegalArgumentException("Argument must not be less than zero");
+            }
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.fillColor = fillColor;
+            this.outlineColor = outlineColor;
+        }
+
+        /**
+         * get the graphics draw origin of the circle
+         * 
+         * @param   val             the coordinates current value
+         * @param   radius          the radius of the circle
+         * @return                  the corner point draw origin of the circle
+         */
+        private double cornerPt(double val, double radius) {
+            return val - radius;        
+        }
+
+        /**
+         * draw the circle
+         * 
+         * @param   g               the graphics object to draw onto
+         */
+        public void draw(Graphics g) {
+            g.setColor(fillColor);
+            g.fillOval(Math.round((long) cornerPt(x, radius)), Math.round((long) cornerPt(y, radius)), 
+                Math.round((long) radius * 2), Math.round((long) radius * 2));
+            // only draw an outline if an outline color is assigned
+            if (outlineColor != null) {
+                g.setColor(outlineColor);
+                g.drawOval(Math.round((long) cornerPt(x, radius)), Math.round((long) cornerPt(y, radius)), 
+                    Math.round((long) radius * 2), Math.round((long) radius * 2));
+            }
+        }
+    } 
 }

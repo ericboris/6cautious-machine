@@ -19,7 +19,7 @@ public class Display extends JPanel implements Observer {
     /** subject                 this display's subject */
     private Subject subject;
     /** elements                the subject's elements */
-    private ArrayList<Circle> elements;
+    private ArrayList<? extends Drawable> elements;
     
     /**
      * construct a display
