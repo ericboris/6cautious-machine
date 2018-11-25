@@ -12,10 +12,11 @@ import javax.swing.event.*;
 public class Fractal extends JPanel implements Subject{
     private int x;
     private int y;
-    private int size;
+    private int radius;
     private int depth;
     private int ratio;
     private double angle;
+    private int maxDepth;
     private Color color1;
     private Color color2;
     
@@ -29,9 +30,10 @@ public class Fractal extends JPanel implements Subject{
 
     private ArrayList<Circle> generateFractal(double x, double y, 
     double radius, double a1, double a2, int depth, double ratio) {
-        if ((int) radius > 1 && depth > 0) {
+        //if ((int) radius > 1 && depth > 0) {
+        if (depth <= maxDepth) {
             // Add the current element to the array
-            elements.add(new Circle(x, y, radius, setColor()));
+            elements.add(new Circle(x, y, radius, setColor(depth)));
 
             double newRadius = radius * ratio * 0.01;
             
@@ -41,7 +43,8 @@ public class Fractal extends JPanel implements Subject{
                             newRadius, 
                             a1 - a2,
                             a2,
-                            depth - 1, 
+                            // depth - 1;
+                            depth + 1, 
                             ratio);            
                             
             // the right branch
@@ -50,7 +53,8 @@ public class Fractal extends JPanel implements Subject{
                             newRadius, 
                             a1 + a2,
                             a2,
-                            depth - 1,
+                            depth + 1,
+                            //depth - 1,
                             ratio);
         }
         return elements;
@@ -72,25 +76,40 @@ public class Fractal extends JPanel implements Subject{
         }
     }
 
-    public void setData(int x, int y, int size, int depth, int ratio, int angle, Color color1, Color color2) {
+    public void setData(int x, int y, int radius, int depth, int ratio, int angle, Color color1, Color color2) {
         this.x = x;
         this.y = y;
-        this.size = size;
+        this.radius = radius;
         this.depth = depth;
         this.ratio = ratio;
         this.angle = Math.toRadians(angle);
         this.color1 = color1;
         this.color2 = color2;
+        this.maxDepth = maxDepth(radius, depth, ratio);
         notifyObservers();
     }
 
     public ArrayList<Circle> getData() {
         elements.clear();
         System.out.println("\n");
-        return generateFractal(x, y, size, 0.0, angle, depth, ratio);
+        return generateFractal(x, y, radius, 0.0, angle, 0, ratio);
     }
     
-    private Color setColor() {
-        return color1;
+    private Color setColor(int depth) {
+        if (maxDepth != depth) {
+            return color1;
+        }
+        return color2;        
+    }
+    
+    private int maxDepth(double radius, int depth, double ratio) {
+        int count = 0;
+        while ((int) radius > 1 && depth > 0) {
+            radius = radius * ratio * 0.01;
+            depth--;
+            count++;
+            //System.out.println(radius + " " + depth + " " + count);
+        }
+        return count;
     }
 }
