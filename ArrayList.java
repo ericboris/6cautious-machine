@@ -42,6 +42,8 @@ public class ArrayList<E> implements Iterable<E> {
     // post: returns the current number of elements in the list
     /**
      * get the size of the array
+     * 
+     * @return                      the size of the array
      */
     public int size() {
         return size;
@@ -111,8 +113,9 @@ public class ArrayList<E> implements Iterable<E> {
     /**
      * returns true if the given value is contained in the list, false otherwise
      * 
-     * @return                      returns true if the given value is contained
-     *                              in the list, false otherwise
+     * @param   value               the value to look for
+     * @return                      returns true if the given value is contained in the list
+     *                              
      */
     public boolean contains(E value) {
         return indexOf(value) >= 0;

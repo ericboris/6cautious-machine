@@ -140,7 +140,7 @@ public class Fractal extends JPanel implements Subject{
      * @param   fillColor2      the fill color of the smallest element
      * @param   lineColor1      the line color of the largest element
      * @param   lineColor2      the line color of the smallest element
-     * @param   useOuline       draw an outline around the elements
+     * @param   useOutline       draw an outline around the elements
      * @param   useGradient     iterpolate colors between each element
      */
     public void setData(int x, int y, int radius, int depth, int ratio, int angle, 

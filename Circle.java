@@ -8,15 +8,15 @@ import java.awt.Graphics;
  * @version (a version number or a date)
  */
 public class Circle implements Drawable{
-    /** @param  x               the x coordinate of the circle */
+    /** x                   the x coordinate of the circle */
     private double x;
-    /** @param  y               the y coordinate of the circle */
+    /** y                   the y coordinate of the circle */
     private double y;
-    /** @param  radius          the radius of the circle */
+    /** radius              the radius of the circle */
     private double radius;
-    /** @param  fillColor       the fill color of the circle */
+    /** fillColor           the fill color of the circle */
     private Color fillColor;
-    /** @param  outlineColor    the outline color of the circle */ 
+    /** outlineColor        the outline color of the circle */ 
     private Color outlineColor;
 
     /**

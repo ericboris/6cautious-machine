@@ -121,7 +121,7 @@ public class Settings extends JPanel {
     /**
      * create a new settings dialog for the given fractal
      * 
-     * @param   fracta          the fractal to modify
+     * @param   fractal          the fractal to modify
      */
     public Settings(Fractal fractal) {
         if (fractal == null) {

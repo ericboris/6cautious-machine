@@ -23,6 +23,8 @@ public interface Subject {
     public void notifyObservers();
     /**
      * get all the subject's data
+     * 
+     * @return              an array of all the subject's data
      */
     public ArrayList<Circle> getData();    
 }

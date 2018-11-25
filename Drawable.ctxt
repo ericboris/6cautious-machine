@@ -3,4 +3,5 @@ comment0.target=Drawable
 comment0.text=\n\ Write\ a\ description\ of\ interface\ Drawable\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
 comment1.params=g
 comment1.target=void\ draw(java.awt.Graphics)
+comment1.text=\n\ draw\ the\ element\n\ \n\ @param\ \ \ g\ \ \ \ \ \ \ \ \ \ \ the\ graphics\ object\ to\ draw\ on\n
 numComments=2
