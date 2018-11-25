@@ -1,25 +1,33 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.Toolkit;
+import java.awt.Graphics;
+import java.awt.Dimension;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+
 /**
- * handle displaying a fractal window and a settings window
- *
+ * handle displaying window
+ * 
  * @author Eric Boris
  * @version 11/7/18
  */
 public class Display extends JPanel implements Observer {
-    private JFrame df;
-    private JPanel dp;
-    private Toolkit tk;
+    /** width                   the width of the display */
+    private int width;
+    /** height                  the height of the display */
+    private int height;
     
-    
-    private int DISP_WIDTH;
-    private int DISP_HEIGHT;
-    
+    /** subject                 this display's subject */
     private Subject subject;
+    /** elements                the subject's elements */
     private ArrayList<Circle> elements;
     
+    /**
+     * construct a display
+     * 
+     * @param   width           the width of the display
+     * @param   height          the height of the display
+     * @param   subject         the subject to register this display with
+     */
     public Display(int width, int height, Subject subject) {
         if (subject == null) {
             throw new IllegalArgumentException("Argument must not be null");
@@ -27,46 +35,47 @@ public class Display extends JPanel implements Observer {
         this.subject = subject;
         this.subject.register(this);
 
-        this.DISP_WIDTH = width;
-        this.DISP_HEIGHT = height;
+        this.width = width;
+        this.height = height;
         
-        
-        //tk = Toolkit.getDefaultToolkit();
-        
-        // dp = new JPanel();
-        // dp.setPreferredSize(new Dimension(width, height));
-        // dp.setLayout(null);
-        
-        //new JPanel();
-        //setPreferredSize(new Dimension(width, height));
         setLayout(null);
         
-        df = new JFrame("Fractal");
+        JFrame df = new JFrame("Fractal");
         df.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         df.getContentPane().add(this);
         df.pack();
         df.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width - width, 0);
         df.setVisible(true);
-        //df.setResizable(false);
     }
     
+    /**
+     * update the contents of the display
+     */
     public void update() {
         elements = subject.getData();
-        //System.out.println("Display update called");
         repaint();
     }
     
+    /**
+     * paint the elements to the display
+     * 
+     * @param   g               the graphics object to paint onto
+     */
     @Override 
     protected void paintComponent(Graphics g) {
-        //System.out.println("paintComponent Called");
         super.paintComponent(g);
         for (Drawable element : elements) {
             element.draw(g);
         }
     }
     
+    /**
+     * return the preffered size of the display
+     * 
+     * @return                  the preferred size of the display
+     */
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(DISP_WIDTH, DISP_HEIGHT);
+        return new Dimension(width, height);
     }
 }

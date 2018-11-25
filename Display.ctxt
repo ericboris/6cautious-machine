@@ -1,12 +1,16 @@
 #BlueJ class context
 comment0.target=Display
-comment0.text=\n\ handle\ displaying\ a\ fractal\ window\ and\ a\ settings\ window\n\n\ @author\ Eric\ Boris\n\ @version\ 11/7/18\n
+comment0.text=\n\ handle\ displaying\ window\n\ \n\ @author\ Eric\ Boris\n\ @version\ 11/7/18\n
 comment1.params=width\ height\ subject
 comment1.target=Display(int,\ int,\ Subject)
+comment1.text=\n\ construct\ a\ display\n\ \n\ @param\ \ \ width\ \ \ \ \ \ \ \ \ \ \ the\ width\ of\ the\ display\n\ @param\ \ \ height\ \ \ \ \ \ \ \ \ \ the\ height\ of\ the\ display\n\ @param\ \ \ subject\ \ \ \ \ \ \ \ \ the\ subject\ to\ register\ this\ display\ with\n
 comment2.params=
 comment2.target=void\ update()
+comment2.text=\n\ update\ the\ contents\ of\ the\ display\n
 comment3.params=g
 comment3.target=void\ paintComponent(java.awt.Graphics)
+comment3.text=\n\ paint\ the\ elements\ to\ the\ display\n\ \n\ @param\ \ \ g\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the\ graphics\ object\ to\ paint\ onto\n
 comment4.params=
 comment4.target=java.awt.Dimension\ getPreferredSize()
+comment4.text=\n\ return\ the\ preffered\ size\ of\ the\ display\n\ \n\ @return\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the\ preferred\ size\ of\ the\ display\n
 numComments=5
