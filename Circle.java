@@ -18,10 +18,7 @@ public class Circle implements Drawable{
     private Color fillColor;
     /** @param  outlineColor    the outline color of the circle */ 
     private Color outlineColor;
-    
-    /** @param  DEFAULT_FILL    the default color of a circle */
-    private static final Color DEFAULT_FILL = Color.green;
-    
+
     /**
      * a circle constructor
      * 

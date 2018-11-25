@@ -90,7 +90,7 @@ public class Settings extends JPanel {
     /** MAX_Y                   the maximum y slider value */
     private static final int MAX_Y = Toolkit.getDefaultToolkit().getScreenSize().height;
     /** INIT_Y                  the default y slider value */
-    private static final int INIT_Y = MAX_Y / 2;
+    private static final int INIT_Y = MAX_Y * 2/ 3;
     /** MAX_SIZE                the maximum size of the root element */
     private static final int MAX_SIZE = INIT_DIM.width * 8;
     /** INIT_SIZE               the default size slider value */
@@ -98,11 +98,11 @@ public class Settings extends JPanel {
     /** MAX_DEPTH               the maximum depth slider value */
     private static final int MAX_DEPTH = 20;
     /** INIT_DEPTH              the default depth slider value */
-    private static final int INIT_DEPTH = MAX_DEPTH / 2;
+    private static final int INIT_DEPTH = MAX_DEPTH / 4;
     /** MAX_RATIO               the maximum ratio slider value */
     private static final int MAX_RATIO = 99;
     /** INIT_RATIO              the default ratio slider value */
-    private static final int INIT_RATIO = MAX_RATIO / 2; 
+    private static final int INIT_RATIO = (MAX_RATIO / 2) + 1; 
     /** MAX_ANGLE               the maximum angle slider value */
     private static final int MAX_ANGLE = 180;
     /** INIT_ANGLE              the default angle slider value */
@@ -112,11 +112,11 @@ public class Settings extends JPanel {
     /** INIT_ROOT_FILL          the default root fill color */
     private static final Color INIT_ROOT_FILL = Color.green;
     /** INIT_ROOT_LINE          the default root outline color */
-    private static final Color INIT_ROOT_LINE = Color.black;
+    private static final Color INIT_ROOT_LINE = new Color(0, 153, 0);
     /** INIT_LEAF_FILL          the default leaf fill color */
     private static final Color INIT_LEAF_FILL = Color.magenta;
     /** INIT_LEAF_LINE          the default leaf outline color */
-    private static final Color INIT_LEAF_LINE = Color.white;
+    private static final Color INIT_LEAF_LINE = new Color(153, 0, 153);
 
     /**
      * create a new settings dialog for the given fractal
@@ -152,7 +152,7 @@ public class Settings extends JPanel {
         // y settings
         yLabel = new JLabel("Y", JLabel.CENTER);
         yLabel.setBounds(60, 10, 60, 20);
-        yCurrent = new JLabel("0." + String.valueOf(INIT_Y), JLabel.CENTER);
+        yCurrent = new JLabel(String.valueOf(INIT_Y), JLabel.CENTER);
         yCurrent.setBounds(60, 210, 60, 20);
         ySlider = new JSlider(JSlider.VERTICAL, 0, MAX_Y, INIT_Y);
         ySlider.setBounds(60, 30, 60, 180);
