@@ -61,19 +61,19 @@ public class Fractal extends JPanel implements Subject{
      * @return                  an array of fractal elements
      */
     private ArrayList<Circle> generateFractal(double x, double y, double radius, 
-    double a1, double a2, int depth, 
-    double ratio) {
+                                              double a1, double a2, int depth, 
+                                              double ratio) {
         //if ((int) radius > 1 && depth > 0) {
         if (depth <= maxDepth) {
             // Add the current element to the array
             // if outline is being used add that color to the new circle too
             if (useOutline) {
                 elements.add(new Circle(x, y, radius, 
-                        getColor(depth, fillColor1, fillColor2), 
-                        getColor(depth, lineColor1, lineColor2)));
+                                        getColor(depth, fillColor1, fillColor2), 
+                                        getColor(depth, lineColor1, lineColor2)));
             } else {
                 elements.add(new Circle(x, y, radius, 
-                        getColor(depth, fillColor1, fillColor2)));
+                                        getColor(depth, fillColor1, fillColor2)));
             }
 
             double newRadius = radius * ratio * 0.01;
@@ -145,8 +145,8 @@ public class Fractal extends JPanel implements Subject{
      * @param   useGradient     iterpolate colors between each element
      */
     public void setData(int x, int y, int radius, int depth, int ratio, int angle, 
-    Color fillColor1, Color fillColor2, Color lineColor1, 
-    Color lineColor2, boolean useOutline, boolean useGradient) {
+                        Color fillColor1, Color fillColor2, Color lineColor1, 
+                        Color lineColor2, boolean useOutline, boolean useGradient) {
         this.x = x;
         this.y = y;
         this.radius = radius;

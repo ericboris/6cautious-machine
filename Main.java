@@ -1,4 +1,5 @@
 import java.awt.Toolkit;
+import java.awt.Dimension;
 
 /**
  * Run and display the GUI and fractals
@@ -16,8 +17,8 @@ public class Main {
         Fractal fractal = new Fractal();
         Settings settings = new Settings(fractal);
         Toolkit tk = Toolkit.getDefaultToolkit();
-        Display d = new Display(fractal,
-                tk.getScreenSize().width - settings.getPreferredSize().width,
-                tk.getScreenSize().height);
+        Dimension disp_dim = new Dimension(tk.getScreenSize().width - settings.getPreferredSize().width,
+                                           tk.getScreenSize().height);
+        Display display = new Display(fractal, disp_dim);
     }
 }
