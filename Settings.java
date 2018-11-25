@@ -87,7 +87,7 @@ public class Settings extends JPanel {
         xSlider.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
-                    updateFractal();
+                    update();
                     xCurrent.setText(String.valueOf(xSlider.getValue()));
                 }
             });
@@ -105,7 +105,7 @@ public class Settings extends JPanel {
         ySlider.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
-                    updateFractal();
+                    update();
                     yCurrent.setText(String.valueOf(ySlider.getValue()));
                 }
             });
@@ -123,7 +123,7 @@ public class Settings extends JPanel {
         sizeSlider.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
-                    updateFractal();
+                    update();
                     sizeCurrent.setText(String.valueOf(sizeSlider.getValue()));
                 }
             });
@@ -141,7 +141,7 @@ public class Settings extends JPanel {
         depthSlider.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
-                    updateFractal();
+                    update();
                     depthCurrent.setText(String.valueOf(depthSlider.getValue()));
                 }
             });
@@ -159,7 +159,7 @@ public class Settings extends JPanel {
         ratioSlider.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
-                    updateFractal();
+                    update();
                     ratioCurrent.setText("0." + String.valueOf(ratioSlider.getValue()));
                 }
             });
@@ -177,7 +177,7 @@ public class Settings extends JPanel {
         angleSlider.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
-                    updateFractal();
+                    update();
                     angleCurrent.setText(String.valueOf(angleSlider.getValue()));
                 }
             });
@@ -201,6 +201,7 @@ public class Settings extends JPanel {
                     if (c != null) {
                         rootFill.setBackground(c);
                     }
+                    update();
                 }
             });
         rootOutline = new JButton("");
@@ -276,13 +277,15 @@ public class Settings extends JPanel {
         sf.setResizable(false);
     }
 
-    private void updateFractal() {
+    private void update() {
         fractal.setData(xSlider.getValue(),
                         ySlider.getValue(),
                         sizeSlider.getValue(),
                         depthSlider.getValue(),
                         ratioSlider.getValue(), 
-                        angleSlider.getValue());
+                        angleSlider.getValue(),
+                        rootFill.getBackground(),
+                        leafFill.getBackground());
     } 
     
     @Override

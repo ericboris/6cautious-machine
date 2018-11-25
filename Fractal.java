@@ -16,6 +16,8 @@ public class Fractal extends JPanel implements Subject{
     private int depth;
     private int ratio;
     private double angle;
+    private Color color1;
+    private Color color2;
     
     private ArrayList<Circle> elements;
     private ArrayList<Observer> observers;
@@ -29,7 +31,7 @@ public class Fractal extends JPanel implements Subject{
     double radius, double a1, double a2, int depth, double ratio) {
         if ((int) radius > 1 && depth > 0) {
             // Add the current element to the array
-            elements.add(new Circle(x, y, radius));
+            elements.add(new Circle(x, y, radius, setColor()));
 
             double newRadius = radius * ratio * 0.01;
             
@@ -70,13 +72,15 @@ public class Fractal extends JPanel implements Subject{
         }
     }
 
-    public void setData(int x, int y, int size, int depth, int ratio, int angle) {
+    public void setData(int x, int y, int size, int depth, int ratio, int angle, Color color1, Color color2) {
         this.x = x;
         this.y = y;
         this.size = size;
         this.depth = depth;
         this.ratio = ratio;
         this.angle = Math.toRadians(angle);
+        this.color1 = color1;
+        this.color2 = color2;
         notifyObservers();
     }
 
@@ -84,5 +88,9 @@ public class Fractal extends JPanel implements Subject{
         elements.clear();
         System.out.println("\n");
         return generateFractal(x, y, size, 0.0, angle, depth, ratio);
+    }
+    
+    private Color setColor() {
+        return color1;
     }
 }
