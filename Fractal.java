@@ -10,37 +10,46 @@ import javax.swing.event.*;
  * @version 11/18/2018
  */
 public class Fractal extends JPanel implements Subject{
+    private int x;
+    private int y;
+    private int size;
     private int depth;
     private int ratio;
-    private int angle;
+    private double angle;
     
     private ArrayList<Circle> elements;
     private ArrayList<Observer> observers;
 
     public Fractal() {
-        setData(0, 0, 0);
+        elements = new ArrayList<Circle>();
         observers = new ArrayList<Observer>();
     }
 
-    private ArrayList<Circle> generateFractal(ArrayList<Circle> elements, double x, double y, 
-    double radius, double angle, double ratio, int depth) {
-        if ((int) radius > 0 && depth > 0) {
+    private ArrayList<Circle> generateFractal(double x, double y, 
+    double radius, double a1, double a2, int depth, double ratio) {
+        if ((int) radius > 1 && depth > 0) {
             // Add the current element to the array
             elements.add(new Circle(x, y, radius));
-            // TODO - remove this line
-            System.out.println(x + ", " + y + ", " + radius + ", " + angle);
-            
-            
+
             double newRadius = radius * ratio * 0.01;
-            double angleInRads = angle * Math.PI / 180;
-            double newLeftX = (radius + newRadius) * Math.sin(-angleInRads) + x;
-            double newRightX = (radius + newRadius) * Math.sin(angleInRads) + x;
-            double newY = (radius + newRadius) * Math.cos(angleInRads) + y;
-            double leftAngle = angle + angle;
-            double rightAngle = angle - angle;
-  
-            generateFractal(elements, newLeftX, newY, newRadius, leftAngle, ratio, depth - 1);
-            generateFractal(elements, newRightX, newY, newRadius, rightAngle, ratio, depth - 1);
+            
+            // the left branch
+            generateFractal(x + (radius + newRadius) * Math.sin(a1 - a2), 
+                            y - (radius + newRadius) * Math.cos(a1 - a2), 
+                            newRadius, 
+                            a1 - a2,
+                            a2,
+                            depth - 1, 
+                            ratio);            
+                            
+            // the right branch
+            generateFractal(x + (radius + newRadius) * Math.sin(a1 + a2), 
+                            y - (radius + newRadius) * Math.cos(a1 + a2), 
+                            newRadius, 
+                            a1 + a2,
+                            a2,
+                            depth - 1,
+                            ratio);
         }
         return elements;
     }
@@ -61,15 +70,19 @@ public class Fractal extends JPanel implements Subject{
         }
     }
 
-    public void setData(int depth, int ratio, int angle) {
-        elements = new ArrayList<Circle>();
+    public void setData(int x, int y, int size, int depth, int ratio, int angle) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
         this.depth = depth;
         this.ratio = ratio;
-        this.angle = angle;
+        this.angle = Math.toRadians(angle);
         notifyObservers();
     }
 
     public ArrayList<Circle> getData() {
-        return generateFractal(elements, 100, 100, 100, angle, ratio, depth);
+        elements.clear();
+        System.out.println("\n");
+        return generateFractal(x, y, size, 0.0, angle, depth, ratio);
     }
 }

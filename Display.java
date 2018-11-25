@@ -52,13 +52,13 @@ public class Display extends JPanel implements Observer {
     
     public void update() {
         elements = subject.getData();
-        System.out.println("Display update called");
+        //System.out.println("Display update called");
         repaint();
     }
     
     @Override 
     protected void paintComponent(Graphics g) {
-        System.out.println("paintComponent Called");
+        //System.out.println("paintComponent Called");
         super.paintComponent(g);
         for (Drawable element : elements) {
             element.draw(g);

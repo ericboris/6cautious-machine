@@ -10,11 +10,10 @@ import javax.swing.event.*;
  */
 public class Main {
     public static void main(String[] args) {
+        Fractal fractal = new Fractal();
+        Settings settings = new Settings(fractal);
         Toolkit tk = Toolkit.getDefaultToolkit();
-        
-        Fractal f = new Fractal();
-        Settings s = new Settings(f);
-        Display d = new Display(tk.getScreenSize().width - s.getSettingsDimension().width,
-                                tk.getScreenSize().height, f);
+        Display d = new Display(tk.getScreenSize().width - settings.getPreferredSize().width,
+                                tk.getScreenSize().height, fractal);
     }
 }

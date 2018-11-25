@@ -52,7 +52,7 @@ public class Circle implements Drawable{
     public void draw(Graphics g) {
         g.setColor(color);
         g.fillOval(Math.round((long) cornerPt(x, radius)), Math.round((long) cornerPt(y, radius)), 
-                   Math.round((long) radius), Math.round((long) radius));
-        System.out.println("Draw called");
+                   Math.round((long) radius * 2), Math.round((long) radius * 2));
+        //System.out.println("Draw called");
     }
 }   
