@@ -6,7 +6,7 @@
  */
 public interface Observer {
     /**
-     * update each observer
+     * update the observer
      */
     public void update();
 }

@@ -65,10 +65,14 @@ public class Fractal extends JPanel implements Subject{
         //if ((int) radius > 1 && depth > 0) {
         if (depth <= maxDepth) {
             // Add the current element to the array
+            // if outline is being used add that color to the new circle too
             if (useOutline) {
-                elements.add(new Circle(x, y, radius, getColor(depth, fillColor1, fillColor2), getColor(depth, lineColor1, lineColor2)));
+                elements.add(new Circle(x, y, radius, 
+                                        getColor(depth, fillColor1, fillColor2), 
+                                        getColor(depth, lineColor1, lineColor2)));
             } else {
-                elements.add(new Circle(x, y, radius, getColor(depth, fillColor1, fillColor2)));
+                elements.add(new Circle(x, y, radius, 
+                                        getColor(depth, fillColor1, fillColor2)));
             }
 
             double newRadius = radius * ratio * 0.01;

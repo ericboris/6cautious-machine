@@ -1,7 +1,19 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.Toolkit;
+import java.awt.Graphics;
+import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JSlider;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+
 
 /**
  * a settings panel
@@ -10,71 +22,113 @@ import javax.swing.event.*;
  * @version 11/18/2018
  */
 public class Settings extends JPanel {
+    /** fractal                 the fractal object this panel modifies */
     private Fractal fractal;
-    
-    private JFrame sf;
-    private JPanel sp;
 
+    /** xSlider                 the slider for the x value */
     private JSlider xSlider;
+    /** xCurrent                the label of the current x value */
     private JLabel xCurrent;
+    /** xLabel                  the label of the x slider */
     private JLabel xLabel;
+    /** ySlider                 the slider for the y value */
     private JSlider ySlider;
+    /** yCurrent                the label of the current y value */
     private JLabel yCurrent;
+    /** yLabel                  the label of the y slider */
     private JLabel yLabel;
+    /** sizeSlider              the slider for the size */
     private JSlider sizeSlider;
+    /** sizeCurrent             the label of the current size */
     private JLabel sizeCurrent;
+    /** sizeLabel               the label for the size slider */
     private JLabel sizeLabel;
+    /** depthSlider             the slider for the depth */
     private JSlider depthSlider;
+    /** depthCurrent            the label for the current depth */
     private JLabel depthCurrent;
+    /** depthLabel              the label for the depth slider */
     private JLabel depthLabel;
+    /** ratioLabel              the label for the ratio slider */
     private JLabel ratioLabel;
+    /** ratioCurrent            the label for the current ratio value */
     private JLabel ratioCurrent;
+    /** ratioSlider             the slider for the ratio */
     private JSlider ratioSlider;
+    /** angleLabel              the label for the angle slider */
     private JLabel angleLabel;
+    /** angleCurrent            the label for the current angle value */
     private JLabel angleCurrent;
+    /** angleSlider             the slider for the angle */
     private JSlider angleSlider;
+    /** rootLabel               the label for the root color */
     private JLabel rootLabel;
+    /** rootFill                the button to set the root color fill */
     private JButton rootFill;
+    /** rootOutline             the button to set the root color outline */
     private JButton rootOutline;
+    /** leafLabel               the label for the leaf color */
     private JLabel leafLabel;
+    /** leafFill                the button to set the leaf color fill */
     private JButton leafFill;
+    /** leafOutline             the button to set the leaf color outline */
     private JButton leafOutline;
+    /** useOutline              the checkbox to turn on and off outline */
     private JCheckBox useOutline;
+    /** useGradient             the checkbox to turn on and off gradient */
     private JCheckBox useGradient;
 
     // window settings
-    private Dimension INIT_DIM = new Dimension(180, 670);
+    /** INIT_DIM                the initial dimension of the window */
+    private static final Dimension INIT_DIM = new Dimension(180, 670);
     
     // slider settings 
-    private int MAX_X = Toolkit.getDefaultToolkit().getScreenSize().width - INIT_DIM.width;
-    private int INIT_X = MAX_X / 2;
-    private int MAX_Y = Toolkit.getDefaultToolkit().getScreenSize().height;
-    private int INIT_Y = MAX_Y / 2;
-    private int MAX_SIZE = INIT_DIM.width * 8;
-    private int INIT_SIZE = MAX_SIZE / 8;
-    private int MAX_DEPTH = 20;
-    private int INIT_DEPTH = MAX_DEPTH / 2;
-    private int MAX_RATIO = 99;
-    private int INIT_RATIO = MAX_RATIO / 2; 
-    private int MAX_ANGLE = 180;
-    private int INIT_ANGLE = MAX_ANGLE / 4;
+    /** MAX_X                   the maximum x slider value */
+    private static final int MAX_X = Toolkit.getDefaultToolkit().getScreenSize().width - INIT_DIM.width;
+    /** INIT_X                  the default x slider value */
+    private static final int INIT_X = MAX_X / 2;
+    /** MAX_Y                   the maximum y slider value */
+    private static final int MAX_Y = Toolkit.getDefaultToolkit().getScreenSize().height;
+    /** INIT_Y                  the default y slider value */
+    private static final int INIT_Y = MAX_Y / 2;
+    /** MAX_SIZE                the maximum size of the root element */
+    private static final int MAX_SIZE = INIT_DIM.width * 8;
+    /** INIT_SIZE               the default size slider value */
+    private static final int INIT_SIZE = MAX_SIZE / 8;
+    /** MAX_DEPTH               the maximum depth slider value */
+    private static final int MAX_DEPTH = 20;
+    /** INIT_DEPTH              the default depth slider value */
+    private static final int INIT_DEPTH = MAX_DEPTH / 2;
+    /** MAX_RATIO               the maximum ratio slider value */
+    private static final int MAX_RATIO = 99;
+    /** INIT_RATIO              the default ratio slider value */
+    private static final int INIT_RATIO = MAX_RATIO / 2; 
+    /** MAX_ANGLE               the maximum angle slider value */
+    private static final int MAX_ANGLE = 180;
+    /** INIT_ANGLE              the default angle slider value */
+    private static final int INIT_ANGLE = MAX_ANGLE / 4;
 
     // color settings
-    private Color INIT_ROOT_FILL = Color.green;
-    private Color INIT_ROOT_LINE = Color.black;
-    private Color INIT_LEAF_FILL = Color.magenta;
-    private Color INIT_LEAF_LINE = Color.white;
+    /** INIT_ROOT_FILL          the default root fill color */
+    private static final Color INIT_ROOT_FILL = Color.green;
+    /** INIT_ROOT_LINE          the default root outline color */
+    private static final Color INIT_ROOT_LINE = Color.black;
+    /** INIT_LEAF_FILL          the default leaf fill color */
+    private static final Color INIT_LEAF_FILL = Color.magenta;
+    /** INIT_LEAF_LINE          the default leaf outline color */
+    private static final Color INIT_LEAF_LINE = Color.white;
 
+    /**
+     * create a new settings dialog for the given fractal
+     * 
+     * @param   fracta          the fractal to modify
+     */
     public Settings(Fractal fractal) {
         if (fractal == null) {
             throw new IllegalArgumentException("Argument must not be null");
         }
         this.fractal = fractal;
-        
-        // create a settings jpanel
-        //sp = new JPanel();
-        //setPreferredSize(INIT_DIM);
-        //setLayout(new FlowLayout());
+
         setLayout(null);
 
         // x settings
@@ -284,7 +338,7 @@ public class Settings extends JPanel {
         add(useGradient); 
         
         // create a settings jframe and add the settings panel to it
-        sf = new JFrame("Settings");
+        JFrame sf = new JFrame("Settings");
         sf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         sf.getContentPane().add(this);
         sf.pack();
@@ -292,6 +346,9 @@ public class Settings extends JPanel {
         sf.setResizable(false);
     }
 
+    /**
+     * update the fractal with the current settings values
+     */
     private void update() {
         fractal.setData(xSlider.getValue(),
                         ySlider.getValue(),
@@ -307,6 +364,11 @@ public class Settings extends JPanel {
                         useGradient.isSelected());
     } 
     
+    /**
+     * get the preferred window dimensions
+     * 
+     * @return              the prefered window dimensions
+     */
     @Override
     public Dimension getPreferredSize() {
         return INIT_DIM;

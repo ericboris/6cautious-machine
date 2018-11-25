@@ -3,5 +3,5 @@ comment0.target=Observer
 comment0.text=\n\ Provide\ an\ Observer\ interface\n\n\ @author\ Eric\ Boris\n\ @version\ 11/18/2018\n
 comment1.params=
 comment1.target=void\ update()
-comment1.text=\n\ update\ each\ observer\n
+comment1.text=\n\ update\ the\ observer\n
 numComments=2

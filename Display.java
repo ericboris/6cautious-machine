@@ -24,11 +24,11 @@ public class Display extends JPanel implements Observer {
     /**
      * construct a display
      * 
+     * @param   subject         the subject to register this display with
      * @param   width           the width of the display
      * @param   height          the height of the display
-     * @param   subject         the subject to register this display with
      */
-    public Display(int width, int height, Subject subject) {
+    public Display(Subject subject, int width, int height) {
         if (subject == null) {
             throw new IllegalArgumentException("Argument must not be null");
         }

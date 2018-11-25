@@ -1,9 +1,9 @@
 #BlueJ class context
 comment0.target=Display
 comment0.text=\n\ handle\ displaying\ window\n\ \n\ @author\ Eric\ Boris\n\ @version\ 11/7/18\n
-comment1.params=width\ height\ subject
-comment1.target=Display(int,\ int,\ Subject)
-comment1.text=\n\ construct\ a\ display\n\ \n\ @param\ \ \ width\ \ \ \ \ \ \ \ \ \ \ the\ width\ of\ the\ display\n\ @param\ \ \ height\ \ \ \ \ \ \ \ \ \ the\ height\ of\ the\ display\n\ @param\ \ \ subject\ \ \ \ \ \ \ \ \ the\ subject\ to\ register\ this\ display\ with\n
+comment1.params=subject\ width\ height
+comment1.target=Display(Subject,\ int,\ int)
+comment1.text=\n\ construct\ a\ display\n\ \n\ @param\ \ \ subject\ \ \ \ \ \ \ \ \ the\ subject\ to\ register\ this\ display\ with\n\ @param\ \ \ width\ \ \ \ \ \ \ \ \ \ \ the\ width\ of\ the\ display\n\ @param\ \ \ height\ \ \ \ \ \ \ \ \ \ the\ height\ of\ the\ display\n
 comment2.params=
 comment2.target=void\ update()
 comment2.text=\n\ update\ the\ contents\ of\ the\ display\n

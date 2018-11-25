@@ -23,18 +23,7 @@ public class Circle implements Drawable{
     private static final Color DEFAULT_FILL = Color.green;
     
     /**
-     * a generic circle constructor
-     * 
-     * @param   x               the x coordinate of the circle
-     * @param   y               the y coordinate of the circle
-     * @param   radius          the radius of the circle
-     */
-    public Circle(double x, double y, double radius) {
-        this(x, y, radius, DEFAULT_FILL);
-    }
-    
-    /**
-     * a circle constructor with a defined fill color
+     * a circle constructor
      * 
      * @param   x               the x coordinate of the circle
      * @param   y               the y coordinate of the circle
