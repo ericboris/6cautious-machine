@@ -1,7 +1,5 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.Color;
+import javax.swing.JPanel;
 
 /**
  * generate a fractal
@@ -10,30 +8,60 @@ import javax.swing.event.*;
  * @version 11/18/2018
  */
 public class Fractal extends JPanel implements Subject{
+    /** x                       the starting x value */
     private int x;
+    /** y                       the starting y value */
     private int y;
+    /** radius                  the starting radius */
     private int radius;
+    /** depth                   the draw depth */
     private int depth;
+    /** ratio                   the draw ratio */
     private int ratio;
+    /** angle                   the draw angle */
     private double angle;
-    private int maxDepth;
+    /** fillColor1              the largest elements fill color */
     private Color fillColor1;
+    /** fillColor2              the smallest elements fill color */
     private Color fillColor2;
+    /** lineColor1              the largest elements ouline color */
     private Color lineColor1;
+    /** lineColor2              the smallest elements outline color */
     private Color lineColor2;
+    /** useGradient             use a gradient on the colors */
     private boolean useGradient;
+    /** useOutline              use an outline on the elements */
     private boolean useOutline;
-    
+    /** maxDepth                store the maximum draw depth */
+    private int maxDepth;
+    /** elements                the elements that comprise the fractal */
     private ArrayList<Circle> elements;
+    /** observers               the observers of this subject */
     private ArrayList<Observer> observers;
 
+    /**
+     * construct a new fractal
+     */
     public Fractal() {
         elements = new ArrayList<Circle>();
         observers = new ArrayList<Observer>();
     }
 
-    private ArrayList<Circle> generateFractal(double x, double y, 
-    double radius, double a1, double a2, int depth, double ratio) {
+    /**
+     * generate the fractal array
+     * 
+     * @param   x               the x position to draw this element
+     * @param   y               the y position to draw this element
+     * @param   radius          the radius of this element
+     * @param   a1              the starting angle of this element
+     * @param   a2              the angle modifier of this element
+     * @param   depth           the current depth of this element
+     * @param   ratio           the ratio between this element and the next
+     * @return                  an array of fractal elements
+     */
+    private ArrayList<Circle> generateFractal(double x, double y, double radius, 
+                                              double a1, double a2, int depth, 
+                                              double ratio) {
         //if ((int) radius > 1 && depth > 0) {
         if (depth <= maxDepth) {
             // Add the current element to the array
@@ -66,14 +94,27 @@ public class Fractal extends JPanel implements Subject{
         return elements;
     }
 
+    /**
+     * add the given observer to this subjects list of observers
+     * 
+     * @param   observer            the observer to add
+     */
     public void register(Observer observer) {
         observers.add(observer);
     }
 
+    /**
+     * remove the given observer from this subjects list of observers
+     * 
+     * @param   observer            the observer to remove
+     */
     public void remove(Observer observer) {
         observers.remove(observers.indexOf(observer));
     }
 
+    /**
+     * notify this subjects list of observers of changes made to this subject
+     */
     public void notifyObservers() {
         if (observers != null) {
             for (Observer observer : observers) {
@@ -82,9 +123,25 @@ public class Fractal extends JPanel implements Subject{
         }
     }
 
+    /**
+     * set the data of this subject's fractal elements
+     * 
+     * @param   x               the x position of the first element
+     * @param   y               the y position of the first element
+     * @param   radius          the radius of the first element
+     * @param   depth           the depth of elements to draw
+     * @param   ratio           the ratio between elements
+     * @param   angle           the angle between elements
+     * @param   fillColor1      the fill color of the largest element
+     * @param   fillColor2      the fill color of the smallest element
+     * @param   lineColor1      the line color of the largest element
+     * @param   lineColor2      the line color of the smallest element
+     * @param   useOuline       draw an outline around the elements
+     * @param   useGradient     iterpolate colors between each element
+     */
     public void setData(int x, int y, int radius, int depth, int ratio, int angle, 
-                        Color fillColor1, Color fillColor2, Color lineColor1, Color lineColor2,
-                        boolean useOutline, boolean useGradient) {
+                        Color fillColor1, Color fillColor2, Color lineColor1, 
+                        Color lineColor2, boolean useOutline, boolean useGradient) {
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -101,26 +158,44 @@ public class Fractal extends JPanel implements Subject{
         notifyObservers();
     }
 
+    /**
+     * get the fractal data
+     * 
+     * @return                  an arraylist fractal data
+     */
     public ArrayList<Circle> getData() {
         elements.clear();
         return generateFractal(x, y, radius, 0.0, angle, 0, ratio);
     }
     
+    /**
+     * get the current elements color
+     * 
+     * @param   depth           the elements current depth
+     * @param   color1          the larger elements color
+     * @param   color2          the smaller elements color
+     * @return                  a color to apply to an element
+     */
     private Color getColor(int depth, Color color1, Color color2) {
+        // standard coloring
         if (!useGradient) {
             if (maxDepth != depth) {
                 return color1;
             }
             return color2;
-        } else {
-            //double ratio = depth / maxDepth;
-            //double ratio = 2/3;
-            
-            //System.out.println(ratio + " " + red + " " + green + " " + blue);
+        } else { // fade between colors
             return interpolateColors((double) depth / (double) maxDepth, color1, color2);
         }
     }
     
+    /**
+     * return a color some way between the given colors
+     * 
+     * @param   ratio           the current ratio between colors
+     * @param   color1          the first color to fade between
+     * @param   color2          the second color to fade between
+     * @return                  the new color part way between the given colors
+     */
     private Color interpolateColors(double ratio, Color color1, Color color2) {
         int red = (int) Math.abs((ratio * color2.getRed()) + ((1 - ratio) * color1.getRed()));
         int green = (int) Math.abs((ratio * color2.getGreen()) + ((1 - ratio) * color1.getGreen()));
@@ -128,6 +203,14 @@ public class Fractal extends JPanel implements Subject{
         return new Color(red, green, blue);
     }
     
+    /**
+     * the maximum depth that elements will be drawn at
+     * 
+     * @param   radius          the largest elements starting radius
+     * @param   depth           the desired draw depth
+     * @param   ratio           the ratio between elements
+     * @return                  the maximum depth that elements will be drawn at
+     */
     private int maxDepth(double radius, int depth, double ratio) {
         int count = 0;
         while ((int) radius > 1 && depth > 0) {

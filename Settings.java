@@ -60,9 +60,9 @@ public class Settings extends JPanel {
     private int INIT_ANGLE = MAX_ANGLE / 4;
 
     // color settings
-    private Color INIT_ROOT_FILL = Color.white;
+    private Color INIT_ROOT_FILL = Color.green;
     private Color INIT_ROOT_LINE = Color.black;
-    private Color INIT_LEAF_FILL = Color.black;
+    private Color INIT_LEAF_FILL = Color.magenta;
     private Color INIT_LEAF_LINE = Color.white;
 
     public Settings(Fractal fractal) {
