@@ -1,7 +1,5 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  * Write a description of class Circle here.
@@ -10,20 +8,52 @@ import javax.swing.event.*;
  * @version (a version number or a date)
  */
 public class Circle implements Drawable{
+    /** @param  x               the x coordinate of the circle */
     private double x;
+    /** @param  y               the y coordinate of the circle */
     private double y;
+    /** @param  radius          the radius of the circle */
     private double radius;
+    /** @param  fillColor       the fill color of the circle */
     private Color fillColor;
+    /** @param  outlineColor    the outline color of the circle */ 
     private Color outlineColor;
     
+    /** @param  DEFAULT_FILL    the default color of a circle */
+    private static final Color DEFAULT_FILL = Color.green;
+    
+    /**
+     * a generic circle constructor
+     * 
+     * @param   x               the x coordinate of the circle
+     * @param   y               the y coordinate of the circle
+     * @param   radius          the radius of the circle
+     */
     public Circle(double x, double y, double radius) {
-        this(x, y, radius, Color.green);
+        this(x, y, radius, DEFAULT_FILL);
     }
     
+    /**
+     * a circle constructor with a defined fill color
+     * 
+     * @param   x               the x coordinate of the circle
+     * @param   y               the y coordinate of the circle
+     * @param   radius          the radius of the circle
+     * @param   fillColor       the fill color of the circle
+     */
     public Circle(double x, double y, double radius, Color fillColor) {
         this(x, y, radius, fillColor, null);
     }
     
+    /**
+     * a circle constructor with a defined fill color and outline color
+     * 
+     * @param   x               the x coordinate of the circle
+     * @param   y               the y coordinate of the circle
+     * @param   radius          the radius of the circle
+     * @param   fillColor       the fill color of the circle
+     * @param   outlineColor    the outline color of the circle
+     */
     public Circle(double x, double y, double radius, Color fillColor, Color outlineColor) {
         if (radius < 0) {
             throw new IllegalArgumentException("Argument must not be less than zero");
@@ -35,34 +65,27 @@ public class Circle implements Drawable{
         this.outlineColor = outlineColor;
     }
     
-    public double getX() {
-        return x;
-    }
-    
-    public double getY() {
-        return y;
-    }
-    
-    public double getRadius() {
-        return radius;
-    }
-    
-    public Color getColor1() {
-        return fillColor;
-    }
-    
-    public Color getColor2() {
-        return outlineColor;
-    }
-    
-    public double cornerPt(double val, double radius) {
+    /**
+     * get the graphics draw origin of the circle
+     * 
+     * @param   val             the coordinates current value
+     * @param   radius          the radius of the circle
+     * @return                  the corner point draw origin of the circle
+     */
+    private double cornerPt(double val, double radius) {
         return val - radius;        
     }
     
+    /**
+     * draw the circle
+     * 
+     * @param   g               the graphics object to draw onto
+     */
     public void draw(Graphics g) {
         g.setColor(fillColor);
         g.fillOval(Math.round((long) cornerPt(x, radius)), Math.round((long) cornerPt(y, radius)), 
                    Math.round((long) radius * 2), Math.round((long) radius * 2));
+        // only draw an outline if an outline color is assigned
         if (outlineColor != null) {
             g.setColor(outlineColor);
             g.drawOval(Math.round((long) cornerPt(x, radius)), Math.round((long) cornerPt(y, radius)), 
