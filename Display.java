@@ -30,6 +30,7 @@ public class Display extends JPanel implements Observer {
             throw new IllegalArgumentException("Argument must not be null");
         }
         this.subject = subject;
+        this.elements = subject.getData();
         this.subject.register(this);
 
         this.dimension = dimension;
